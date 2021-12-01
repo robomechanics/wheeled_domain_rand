@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="generic_ind">
+	<!--Insert Properties Here-->
+
+	<!-- * * * Link Definitions * * * -->
+
+	<link name="base_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${body_length} ${body_width} ${body_height}"/>
+			</geometry>
+		</collision>	
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="1"/>
+			<inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+		</inertial>
+	</link>
+
+	<!-- *** Define Suspension Links *** -->
+	
+	<link name="fr_sus_link">
+		<collision>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${link_radius}" length="${link_length}"/>
+			</geometry>
+		</collision>	
+		<inertial>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<mass value="1"/>
+			<inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+		</inertial>
+	</link>
+	
+	<link name="fl_sus_link">
+		<collision>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${link_radius}" length="${link_length}"/>
+			</geometry>
+		</collision>	
+		<inertial>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<mass value="1"/>
+			<inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+		</inertial>
+	</link>
+	
+	<link name="br_sus_link">
+		<collision>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${link_radius}" length="${link_length}"/>
+			</geometry>
+		</collision>	
+		<inertial>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<mass value="1"/>
+			<inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+		</inertial>
+	</link>
+	
+	<link name="bl_sus_link">
+		<collision>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${link_radius}" length="${link_length}"/>
+			</geometry>
+		</collision>	
+		<inertial>
+			<origin xyz="0 ${-link_length/2.0} 0" rpy="${pi/2.0} 0 0"/>
+			<mass value="1"/>
+			<inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+		</inertial>
+	</link>
+	
+	<joint name="fr_body2link" type="revolute">
+		<parent link="base_link"/>
+		<child link="fr_sus_link"/>
+		<origin xyz="${body_length/2.0} ${-body_width/2.0} 0" rpy="0 0 ${forward_angle}"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+	
+	<joint name="fl_body2link" type="revolute">
+		<parent link="base_link"/>
+		<child link="fl_sus_link"/>
+		<origin xyz="${body_length/2.0} ${body_width/2.0} 0" rpy="0 0 ${pi-forward_angle}"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+	
+	<joint name="br_body2link" type="revolute">
+		<parent link="base_link"/>
+		<child link="br_sus_link"/>
+		<origin xyz="${-body_length/2.0} ${-body_width/2.0} 0" rpy="0 0 ${-forward_angle}"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+	
+	<joint name="bl_body2link" type="revolute">
+		<parent link="base_link"/>
+		<child link="bl_sus_link"/>
+		<origin xyz="${-body_length/2.0} ${body_width/2.0} 0" rpy="0 0 ${pi+forward_angle}"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+	
+	<!-- *** Define Roll Links *** -->
+	
+	<link name="fr_roll_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+	
+	<link name="fl_roll_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+
+	<link name="br_roll_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+
+	<link name="bl_roll_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+
+	<joint name="fr_roll_control" type="revolute">
+		<parent link="fr_sus_link"/>
+		<child link="fr_roll_link"/>
+		<origin xyz="0 ${-link_length} 0" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<joint name="fl_roll_control" type="revolute">
+		<parent link="fl_sus_link"/>
+		<child link="fl_roll_link"/>
+		<origin xyz="0 ${-link_length} 0" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<joint name="br_roll_control" type="revolute">
+		<parent link="br_sus_link"/>
+		<child link="br_roll_link"/>
+		<origin xyz="0 ${-link_length} 0" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<joint name="bl_roll_control" type="revolute">
+		<parent link="bl_sus_link"/>
+		<child link="bl_roll_link"/>
+		<origin xyz="0 ${-link_length} 0" rpy="0 0 0"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<!-- *** Define Steer Links *** -->
+	
+	<link name="fr_steer_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="$0 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+	
+	<link name="fl_steer_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="$0 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+	
+	<link name="br_steer_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="$0 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+	
+	<link name="bl_steer_link">
+		<collision>
+			<origin xyz="0 0 0" rpy="$0 0 0"/>
+			<geometry>
+				<sphere radius="${link_radius}"/>
+			</geometry>
+		</collision>	
+	</link>
+	
+	<joint name="fr_steer" type="revolute">
+		<parent link="fr_roll_link"/>
+		<child link="fr_steer_link"/>
+		<origin xyz="0 0 0" rpy="0 0 ${-forward_angle}"/>
+		<axis xyz="0 0 1"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<joint name="fl_steer" type="revolute">
+		<parent link="fl_roll_link"/>
+		<child link="fl_steer_link"/>
+		<origin xyz="0 0 0" rpy="0 0 ${forward_angle}"/>
+		<axis xyz="0 0 1"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<joint name="br_steer" type="revolute">
+		<parent link="br_roll_link"/>
+		<child link="br_steer_link"/>
+		<origin xyz="0 0 0" rpy="0 0 ${forward_angle}"/>
+		<axis xyz="0 0 1"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<joint name="bl_steer" type="revolute">
+		<parent link="bl_roll_link"/>
+		<child link="bl_steer_link"/>
+		<origin xyz="0 0 0" rpy="0 0 ${-forward_angle}"/>
+		<axis xyz="0 0 1"/>
+		<limit lower="100" upper="-100" effort="0" velocity="100"/>
+	</joint>
+
+	<!-- *** Define Drive Wheels *** -->
+	
+	<link name="fr_wheel">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+			</geometry>
+		</collision>	
+	</link>
+
+	<link name="fl_wheel">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+			</geometry>
+		</collision>	
+	</link>
+	
+	<link name="br_wheel">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+			</geometry>
+		</collision>	
+	</link>
+
+	<link name="bl_wheel">
+		<collision>
+			<origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+			<geometry>
+				<cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+			</geometry>
+		</collision>	
+	</link>
+
+	<joint name="fr_drive" type="continuous">
+		<parent link="fr_steer_link"/>
+		<child link="fr_wheel"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+	
+	<joint name="fl_drive" type="continuous">
+		<parent link="fl_steer_link"/>
+		<child link="fl_wheel"/>
+		<origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+	
+	<joint name="br_drive" type="continuous">
+		<parent link="br_steer_link"/>
+		<child link="br_wheel"/>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+	
+	<joint name="bl_drive" type="continuous">
+		<parent link="bl_steer_link"/>
+		<child link="bl_wheel"/>
+		<origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+		<axis xyz="0 1 0"/>
+	</joint>
+ 
+</robot>
